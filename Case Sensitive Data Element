@@ -1,0 +1,4 @@
+rlgrap-filename
+
+PARAMETERS file TYPE string LOWER CASE DEFAULT 'C:\Users\ADMIN\Downloads\COCO.xlsx'.
+
