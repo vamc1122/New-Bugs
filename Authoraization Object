@@ -1,0 +1,80 @@
+T-code su21 
+
+create a  class
+and right click on the class and create a Auth.. object give name
+and maintain the values ...below 
+
+Auth.. field   |   Short Description..
+ACTVT	       |     Activity
+USER           |     DESC.....
+
+ask Functional which activity number they will maintain.
+
+
+
+Program : 
+
+AUTHORITY-CHECK OBJECT 'ZCTAX_VEND'
+*        ID 'USER' FIELD sy-uname
+       ID 'ACTVT' FIELD '02'.
+      IF sy-subrc <> 0.
+       flag_auth = 'X'.
+      ENDIF.
+
+
+
+" ABOVE IT NOT WORKING AS EXPECTED"
+	
+
+* get all the roles assigned to the user
+      SELECT * FROM agr_users INTO TABLE it_agr_users
+        WHERE uname = sy-uname.
+      IF NOT it_agr_users[] IS INITIAL.
+* get role is assigned to the TCODE
+        SELECT * FROM agr_tcodes INTO TABLE it_agrtcode
+          FOR ALL ENTRIES IN it_agr_users          "#EC CI_NO_TRANSFORM
+          WHERE agr_name = it_agr_users-agr_name
+               AND tcode = sy-tcode                  .
+* get the profile atta.ched to the roles
+        SELECT * FROM agr_prof INTO TABLE it_agr_prof
+          FOR ALL ENTRIES IN it_agr_users          "#EC CI_NO_TRANSFORM
+          WHERE agr_name = it_agr_users-agr_name    .
+        IF NOT it_agr_prof[] IS INITIAL.
+* get the profile attached for ZCTAX_VEND authorization object
+
+          SELECT * FROM ust10s INTO TABLE it_ust10s
+            FOR ALL ENTRIES IN it_agr_prof         "#EC CI_NO_TRANSFORM
+            WHERE profn = it_agr_prof-profile
+            AND objct = 'ZCTAX_VEND'                  .
+
+          IF sy-subrc = 0.
+* get all the assigned to the user
+            SELECT * FROM ust12 INTO TABLE it_data
+              FOR ALL ENTRIES IN it_ust10s         "#EC CI_NO_TRANSFORM
+              WHERE objct = 'ZCTAX_VEND'
+              AND auth = it_ust10s-auth
+              AND field = 'ACTVT' .
+            READ TABLE it_data INTO DATA(w_actvt) WITH KEY field = 'ACTVT'.
+            IF sy-subrc = 0 AND w_actvt-Von = '02'.
+              flag_auth = ''.
+            ELSE.
+            flag_auth = 'X'.
+            ENDIF.
+          ELSE.
+            flag_auth = 'X'.
+          ENDIF.
+        ELSE.
+            flag_auth = 'X'.
+        ENDIF.
+      ENDIF.
+
+" eoc.
+
+	
+	
+	
+	
+	
+	
+	
+
