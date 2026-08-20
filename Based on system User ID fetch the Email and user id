@@ -1,0 +1,23 @@
+      CALL FUNCTION 'HR_FBN_GET_USER_EMAIL_ADDRESS'
+        EXPORTING
+          user_id       = wa_vbrp-ernam
+          reaction      = 'X'
+        IMPORTING
+          email_address = lv_email
+*         SUBRC         =
+        TABLES
+          error_table   = it_err.
+
+      zetteinv-email   = lv_email.
+      CALL FUNCTION 'SUSR_SHOW_USER_DETAILS'
+        EXPORTING
+          bname      = wa_vbrp-ernam
+          mandt      = sy-mandt
+          no_display = 'X'
+        IMPORTING
+*         OKCODE     =
+          addr_usr   = wa_usr.
+*        CHANGING
+*          USER_USR03       =
+      .
+      zetteinv-ernam = wa_usr-name_text.
