@@ -1,0 +1,21 @@
+IF LV_DMBT IS NOT INITIAL.
+        CALL FUNCTION 'HR_IN_CHG_INR_WRDS'
+                    EXPORTING
+                      amt_in_num         = LV_DMBT1
+                    IMPORTING
+                      amt_in_words       = WA_HEADER-TAX_WORD
+                    EXCEPTIONS
+                      data_type_mismatch = 1
+                      OTHERS             = 2.
+                  IF sy-subrc <> 0.
+* Implement suitable error handling here
+                  ENDIF.
+*                  ENDIF.
+                   DATA(V_WORDS) = WA_HEADER-TAX_WORD .
+                   CALL FUNCTION 'FI_CONVERT_FIRSTCHARS_TOUPPER'
+                    EXPORTING
+                      input_string  = v_words
+                      separators    = ' -.,;:'
+                    IMPORTING
+                      output_string = WA_HEADER-TAX_WORD.
+                  WA_HEADER-TAX_WORD = |{ WA_HEADER-TAX_WORD } Only|.
