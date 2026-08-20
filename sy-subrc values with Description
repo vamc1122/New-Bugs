@@ -1,0 +1,10 @@
+System Fields
+
+sy-subrc	Meaning
+0	Authorization successful or no check was carried out. An authorization for the authorization object was found in the user master record. Its value sets include the specified values.
+4	Authorization check not successful. One or more authorizations were found for the authorization object in the user master record and they include the value sets, but not the values specified, or incorrect authorization fields or too many fields were specified.
+12	No authorization was found for the authorization object in the user master record.
+24	This return code is no longer set.
+40	An invalid user ID was specified in user.
+
+1001 in BDC is Get unexpected popup and failed to get 1001 values
