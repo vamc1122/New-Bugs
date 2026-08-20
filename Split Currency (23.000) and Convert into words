@@ -1,0 +1,53 @@
+SET COUNTRY 'UAE'.
+
+  CLEAR: lv_char1, lv_char2,netwr,lv_value,gv_usd_format.
+     lv_value = w_item-netwr1.
+    SPLIT lv_value AT '.' INTO lv_char1 lv_char2.
+    CONDENSE :lv_char1, lv_char2.
+    IF strlen( lv_char2 ) ne 3.
+    WRITE w_item-netwr1 TO gv_usd_format CURRENCY 'AED'.
+    CONDENSE gv_usd_format.
+  ELSE.
+    netwr = lv_char1.
+    WRITE netwr TO gv_usd_format CURRENCY 'AED'.
+    CONDENSE gv_usd_format.
+    SPLIT gv_usd_format AT '.' INTO  lv_char1  lv_value.
+    gv_usd_format =  lv_char1 && |.| &&  lv_char2.
+  ENDIF.
+  CONDENSE gv_usd_format.
+  lv_vaka   =  gv_usd_format.
+
+
+v_total2 = '22222152.258'.
+  IF gs_head-waerk = 'AED'.
+      lv_sar1  = v_total2.
+      SPLIT lv_sar1 AT '.' INTO lv_char1 lv_char2.
+      CONDENSE :lv_char1,lv_char2.
+      CONCATENATE lv_char1 '.00'  INTO lv_char1.
+      CONCATENATE lv_char2 '.00'  INTO lv_char2.
+      CONDENSE :lv_char1,lv_char2.
+         CALL FUNCTION 'ZSPELL_AMOUNT'
+          EXPORTING
+            amount   = lv_char1
+            currency = gs_head-waerk
+            language = gv_langu "sy-langu
+          IMPORTING
+            in_words = amt_words.
+
+        IF sy-subrc = 0.
+
+          lv_dec_bf = amt_words-word.
+          total_amt_words-word  = lv_dec_bf.
+        ENDIF.
+CLEAR : amt_words.
+         CALL FUNCTION 'ZSPELL_AMOUNT'
+          EXPORTING
+            amount   = lv_char2
+            currency = gs_head-waerk
+            language = gv_langu "sy-langu
+          IMPORTING
+            in_words = amt_words.
+        IF sy-subrc = 0.
+          lv_dec_af = amt_words-word.
+          total_amt_words-decword = lv_dec_af.
+        ENDIF.
