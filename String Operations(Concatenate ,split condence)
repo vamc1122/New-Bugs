@@ -1,0 +1,16 @@
+
+String Operations
+
+1. Concatenate: It is one of the string operations. It is used to add the multiple string values into another string. 
+
+2. Split: It is one of the string operations. It is used to split the main value into multiple strings.  
+
+3. Condense: It is one string operations. It is used to remove the unwanted space in between the characters of the strings
+
+4. Replace: It is one string operations. It is used to replace the strings.   
+
+5. Length: It is one string operations. It is used to find out the length of characters in a particular strings.   
+
+6. Translate: It is one string operations. It is used to convert upper case or lower case or lower case to upper case.    
+
+7. Substring: It is one string operations.   
