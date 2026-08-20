@@ -1,0 +1,18 @@
+    IF wa_final-infnr IS NOT INITIAL.
+      SORT it_a017 BY matnr werks lifnr.
+      LOOP AT it_a017 INTO DATA(wa_a017) WHERE  matnr = wa_info1-matnr AND werks = wa_info1-werks AND lifnr = wa_info1-lifnr.
+        IF sy-datum >= wa_a017-datab AND sy-datum <= wa_a017-datbi.
+          CONCATENATE wa_a017-datab+6(2) '.' wa_a017-datab+4(2) '.' wa_a017-datab+0(4) INTO wa_final-datab.
+          CONCATENATE wa_a017-datbi+6(2) '.' wa_a017-datbi+4(2) '.' wa_a017-datbi+0(4) INTO wa_final-datbi.
+        ENDIF.
+      ENDLOOP.
+    ENDIF.
+    
+    
+    
+              SELECT * FROM a304 INTO TABLE it_304
+          WHERE matnr = wa_final-matnr
+          AND kschl = 'ZPRC'
+          AND vtweg = '07'
+          AND ( datab LE wa_final-fkdat AND
+                datbi GE wa_final-fkdat ) .
