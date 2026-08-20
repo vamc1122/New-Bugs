@@ -1,0 +1,7 @@
+      wa_fcat-fieldname = 'PICKED_QTY'.
+      wa_fcat-tabname = 'IT_FINAL'.   " In final internal table this filed should be data type MEINS 
+      wa_fcat-seltext_l = 'Picked Qty'.
+      wa_fcat-edit  =  'X'.
+      wa_fcat-ref_fieldname = 'MEINS'.
+      wa_fcat-datatype = 'QUAN'.
+      wa_fcat-datatype = 'UNIT'.*************************
