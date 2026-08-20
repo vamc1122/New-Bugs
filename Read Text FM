@@ -1,0 +1,35 @@
+        DATA :ft_line  TYPE STANDARD TABLE OF tline,
+               fs_line  TYPE tline,
+      DATA : LV_EBELN TYPE THEAD-TDNAME.
+        lv_ebeln = wa_final-ebeln.
+        DATA(lv_client) = sy-mandt.
+        DATA(lv_langu)  = sy-langu.
+        CALL FUNCTION 'READ_TEXT'
+          EXPORTING
+            client                  = lv_client
+            id                      = 'F27'
+            language                = lv_langu
+            name                    = lv_ebeln
+            object                  = 'EKKO'
+*  IMPORTING
+*           HEADER                  = lv_head
+          TABLES
+            lines                   = ft_line
+          EXCEPTIONS
+            id                      = 1
+            language                = 2
+            name                    = 3
+            not_found               = 4
+            object                  = 5
+            reference_check         = 6
+            wrong_access_to_archive = 7
+            OTHERS                  = 8.
+        IF sy-subrc <> 0  ##NEEDED.
+* Implement suitable error handling here
+        ENDIF.
+
+        READ TABLE ft_line INTO fs_line INDEX 1.
+        IF sy-subrc = 0.
+          wa_final-line_id = fs_line-tdline.
+        ENDIF.
+        CLEAR :ft_line,fs_line.
