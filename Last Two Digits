@@ -1,0 +1,3 @@
+  DATA(len) = strlen( input-zbene_acc_no ).
+  len = len - 2.
+  DATA(lv_last2) = input-zbene_acc_no+len(2).
