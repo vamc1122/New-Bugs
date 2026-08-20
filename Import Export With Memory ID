@@ -1,0 +1,12 @@
+IMPORT i_otfdata1 FROM MEMORY ID 'OTFDATA'.
+  EXPORT l_xstring TO  MEMORY ID 'PDF_BASE64'.
+
+if multiple logon or background job will use shared memory.
+
+EXPORT ls_aufk        TO SHARED MEMORY indx(ab) ID 'ZID'.
+EXPORT lv_tcode       TO SHARED MEMORY indx(ct) ID 'ZTCODE'.
+EXPORT gv_upd         TO SHARED MEMORY indx(de) ID 'ZUPD'.
+
+IMPORT ls_aufk  TO ls_aufk  FROM SHARED MEMORY indx(ab) ID 'ZID'.
+IMPORT lv_tcode TO lv_tcode FROM SHARED MEMORY indx(ct) ID 'ZTCODE'.
+IMPORT gv_upd   TO gv_upd   FROM SHARED MEMORY indx(de) ID 'ZUPD'.
