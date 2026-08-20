@@ -1,0 +1,3 @@
+
+pt_k_accit-sgtxt = lv_new_text.
+MODIFY pt_k_accit[] FROM pt_k_accit TRANSPORTING sgtxt WHERE LIFNR = pt_k_accit-lifnr.
